@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import Calendar from './calendar';
 import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './Pages/Login';
+import Calendar from './Pages/Calendar';
+
 import './App.css';
+
 const axios = require('axios');
 const url = 'http://127.0.0.1:5000';
 
@@ -19,12 +23,24 @@ class App extends Component {
 
   render() {
     return (
-        <div>
-          <div>
-            ASDFASDFAsd
-          </div>
-            <Calendar />
-        </div>
+        <div className="App">
+        <Router>
+          <Switch>
+            <Route
+              exact
+              path ='/'
+              render={() => (
+                  <Login />
+                )} />
+            <Route
+              exact
+              path ='/calendario'
+              render={() => (
+                  <Calendar />
+                )} />
+              </Switch>
+        </Router>
+      </div>
     );
   }
 }

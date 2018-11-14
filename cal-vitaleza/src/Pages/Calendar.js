@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //TESTING
-import events from './events';
-import './App.css';
+import events from '../events';
+import '../App.css';
 
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -19,12 +19,14 @@ class Calendar extends Component {
 
 	render() {
 		return(
+			<div>
 			<div className="Calendar">
 				<BigCalendar
 					localizer={localizer}
 					events={this.state.events}
 					defaultView={BigCalendar.Views.WEEK}
 				/>
+			</div>
 			</div>
 		)
 	}
