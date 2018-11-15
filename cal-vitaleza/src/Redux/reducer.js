@@ -1,18 +1,6 @@
-const initialState = {
-	loggedIn: false,
-	userId: -1,
-	userName: '',
-	LastName: '',
-	userType: -1
-}
+import { combineReducers } from 'redux';
+import userReducer from './userReducer';
 
-const reducer = (state = initialState, action) => {
-	switch( action.type ) {
-		case 'LogIn':
-			return {loggedIn: true, userId: action.payload.uId, userName: action.payload.userName, LastName: action.payload.lastName, userType: action.payload.usertype}
-		default:
-			return state;
-	}
-};
+const reducer = combineReducers({userReducer});
 
 export default reducer;

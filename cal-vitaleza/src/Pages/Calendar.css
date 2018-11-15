@@ -1,0 +1,27 @@
+.MainCalendar {
+  height: 83vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.NutriologaCalendar {
+	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	display: flex;
+}
+
+.ToolbarCalendar {
+	flex-direction: row;
+  	justify-content: space-around;
+  	display: flex;
+}
+
+.LeftCalendar {
+	background-color: #E6E6FA;
+	height: 90vh;
+}
+
+.rbc-event-label {
+  display: none;
+}

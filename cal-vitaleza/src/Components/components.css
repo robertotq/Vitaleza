@@ -1,0 +1,15 @@
+.Header-Logo {
+  height: 10vmin;
+}
+
+.Header {
+   background-color: #E6E6FA;
+   min-height: 5vh;
+   display: flex;
+   flex-direction: row-reverse;
+   color:white;
+   justify-content: space-between;
+   align-items: center;
+   padding-right: 25px;
+   padding-left: 25px;
+}

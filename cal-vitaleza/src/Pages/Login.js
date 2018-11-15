@@ -4,27 +4,13 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider} from '@material-ui/core/styles';
 import './Login.css';
 import logo from '../Assets/logo.png';
-import purple from '@material-ui/core/colors/deepPurple';
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
-
+import theme from '../Assets/Theme';
 
 const axios = require('axios');
 const url = 'http://127.0.0.1:5000';
-
-const theme = createMuiTheme({
-	typography: {
-    	useNextVariants: true,
-  	},
-	palette: {
-		primary: purple,
-		secondary: green,
-		error: red
-	}
-});
 
 class Login extends Component {
 
@@ -85,8 +71,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+        <div className="Login-header">
    			<img src={logo} className="App-logo"alt="logo" />
    			<MuiThemeProvider theme={theme}>
 	          	<Typography variant="h5" component="h3" className="Admin-bienvenido" color="primary">
@@ -130,8 +115,7 @@ class Login extends Component {
 	            </Button>
 	            </MuiThemeProvider>
 	        </div>
-        </header>
-      </div>
+        </div>
     );
   }
 
