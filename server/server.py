@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from flaskext.mysql import MySQL
 from login import tryLogin
-from calendario import sigNutriologa, prevNutriologa, requestCitas
+from calendario import sigNutriologa, prevNutriologa, requestCitas, detallesCita
 app = Flask(__name__)
 mysql = MySQL(app)
 CORS(app)
@@ -33,23 +33,30 @@ def trylogin():
 
 @app.route('/siguienteNutriologa', methods=['GET'])
 def siguienteNutriologa(): 
-	idNutriologa = request.args.get('idNutriologa', None)
+	idNutriologa = request.args.get('NutriologaID', None)
 	conn = mysql.connect()
 	cursor = conn.cursor()
 	return sigNutriologa(idNutriologa, cursor)
 
 @app.route('/previousNutriologa', methods=['GET'])
 def previousNutriologa():
-	idNutriologa = request.args.get('idNutriologa', None)
+	idNutriologa = request.args.get('NutriologaID', None)
 	conn = mysql.connect()
 	cursor = conn.cursor()
 	return prevNutriologa(idNutriologa, cursor)
 
 @app.route('/getCitas', methods=['GET'])
 def getCitas():
-	idNutriologa = request.args.get('idNutriologa', None)
+	NutriologaID = request.args.get('NutriologaID', None)
 	semana = request.args.get('semana', None)
 	finSemana = request.args.get('finSemana', None)
 	conn = mysql.connect()
 	cursor = conn.cursor()
-	return requestCitas(idNutriologa, semana, finSemana, cursor)
+	return requestCitas(NutriologaID, semana, finSemana, cursor)
+
+@app.route('/citaDetalles', methods=['GET'])
+def getDetalleCita():
+	CitaID = request.args.get('CitaID', -1)
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	return detallesCita(CitaID, cursor)

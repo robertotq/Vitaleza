@@ -123,7 +123,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.loggedIn
+    loggedIn: state.userReducer.loggedIn
   };
 };
 

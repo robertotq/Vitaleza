@@ -34,3 +34,12 @@ def requestCitas(idNutriologa, semana, finSemana,  cursor):
 		result = cursor.fetchone()
 	resultString = resultString[:-1] + ']'
 	return resultString
+
+def detallesCita(CitaID, cursor):
+	query = "SELECT c.PacienteID, p.Nombre, p.Apellidos, p.Telefono, c.FechaAgendada, c.Modalidad, c.Motivo, c.FormaDePago, c.Confirmada, c.TotalPago, c.Pagado FROM Cita c JOIN Paciente p on c.PacienteID = p.ID WHERE c.ID = " + CitaID + ";"
+	cursor.execute(query)
+	result = cursor.fetchone()
+	if result == None:
+		return 'ERROR'
+	resultJson = '{ "PacienteID": "' + str(result[0]) + '", "PacienteNombre": "' + result[1] + '", "PacienteApellidos": "' + result[2] + '", "PacienteTelefono": "' + result[3] + '", "FechaAgendada": "' + str(result[4]) + '", "Modalidad": "' + str(result[5]) + '", "Motivo": "' + result[6] + '", "FormaDePago": "' + str(result[7]) + '", "Confirmada": "' + str(result[8]) +'", "TotalPago": "' + str(result[9]) + '", "Pagado": "' + str(result[10]) + '" }'
+	return resultJson

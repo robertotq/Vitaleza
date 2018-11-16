@@ -1,0 +1,22 @@
+.MainPaper {
+	padding-right: 10vw;
+	padding-bottom: 10vh;
+	padding-top: 10vh;
+	padding-left: 10vw;
+}
+
+.InnerPaperDivider {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.InnerPaperUpper {
+	padding-top: 25px;
+}
+
+.InnerPaperIconDiv {
+	display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
