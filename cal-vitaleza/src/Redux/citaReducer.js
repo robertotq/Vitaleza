@@ -1,6 +1,7 @@
 const initialCitaState = {
 	CitaID: -1,
 	NutriologaID: -1,
+	Semana: null,
 	Fecha: null,
 	NutriologaNombre: ''
 }
@@ -8,10 +9,11 @@ const initialCitaState = {
 const citaReducer = (state = initialCitaState, action) => {
 	switch( action.type ) {
 		case 'changeToDetails':
-			console.log('reduced');
-			console.log(action.payload.CitaID);
-			console.log(initialCitaState.CitaID);
 			return { CitaID: action.payload.CitaID, NutriologaID: action.payload.NutriologaID, Semana: action.payload.Semana, NutriologaNombre: action.payload.NutriologaNombre}
+		case 'changeToCreateCita':
+			return { NutriologaID: action.payload.NutriologaID, Fecha: action.payload.Fecha, NutriologaNombre: action.payload.NutriologaNombre}
+		case 'logOut':
+			return initialCitaState;
 		default:
 			return state;
 	}

@@ -29,8 +29,9 @@ function capitalizeFirstLetter(string) {
 function getStartOfWeek(){
 	var d = new Date();
 	var day = d.getDay(),
-      diff = d.getDate() - day + (day === 0 ? -6:1); // adjust when day is sunday
-  return new Date(d.setDate(diff));
+    diff = d.getDate() - day - 1 + (day === 0 ? -6:1); // adjust when day is sunday
+  	var newD = new Date(d.setDate(diff));
+  	return newD;
 }
 
 class Calendar extends Component {
@@ -43,9 +44,9 @@ class Calendar extends Component {
 			citas: [],
 			Nombre: 'Ana Cecy',
 			Apellidos: '',
-			semana: getStartOfWeek() 
+			semana: getStartOfWeek()
 		};
-
+		this._isMounted = false;
 		this.next = this.next.bind(this);
 		this.previous = this.previous.bind(this);
 		this.getCitas = this.getCitas.bind(this);
@@ -54,7 +55,7 @@ class Calendar extends Component {
 	}
 
 	componentDidMount(){
-		if (this.state.NutriologaID == -1)
+		if (this.state.NutriologaID === -1)
 			this.next()
 		else {
 			this.getCitas();
@@ -62,6 +63,11 @@ class Calendar extends Component {
 				Nombre: this.props.NutriologaNombre
 			});
 		}	
+		this._isMounted = true;
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	next(events){
@@ -110,12 +116,10 @@ class Calendar extends Component {
 		this.toolbarDate = toolbar.date;
 		const goToBack = () => {
 		  toolbar.onNavigate('next', this.prevSemana());
-		  //this.getCalendarEvents(newDate);
 
 		}
 		const goToNext = () => {
 		  toolbar.onNavigate('next', this.sigSemana());
-		 //this.getCalendarEvents(newDate);
 		}
 
 		const goToToday = () => {
@@ -132,7 +136,7 @@ class Calendar extends Component {
 		    		<Grid container>
 			        	<Grid item xs={6}>
 					        <Typography variant="h5" component="h3" color="primary">
-								          {capitalizeFirstLetter(this.state.semana.toLocaleString("es-mx", {month: "long" }))}
+								          {capitalizeFirstLetter(this.state.semana.toLocaleString("es-mx", {month: "long" }))} {this.state.semana.toLocaleString("es-mx", {year: "numeric"})}
 							</Typography>
 						</Grid>
 						<Grid item xs={6}>
@@ -172,20 +176,17 @@ class Calendar extends Component {
 		})
 		.then((response) => {
 			var nuevasCitas = [];
-			console.log(response.data);
 			var i;
 			for(i = 0; i < response.data.length; i++){
 				var cita = response.data[i];
 				const finCita = moment(cita.FechaAgendada).add(30, 'm').toDate();
 				cita.FinalCita = finCita;
 				cita.FechaAgendada = moment(cita.FechaAgendada).toDate();
-				console.log(cita);
 				nuevasCitas.push(cita);
 			}
 			this.setState({
 				citas: response.data
 			});
-			console.log(response.data);
 		})
 	}
 
@@ -210,16 +211,16 @@ class Calendar extends Component {
 	}
 
 	hacerCita = ({start, end}) => {
-		console.log(start);
+		this.props.changeToCreateCita(this.state.NutriologaID, start, this.state.Nombre);
+		this.props.history.push('/crearCita');
 	}
 
 	verDetalles = (event) => {
 		this.props.changeToDetails(event.ID, this.state.NutriologaID, this.state.semana, this.state.Nombre);
 		this.props.history.push('/detallesCita');
-		//Pass a una nueva ventana para ver la info
 	}
 
-	eventStyleGetter(event, start, end, isSelected) {
+	eventStyleGetter(event) {
 		var backgroundColor = '';
 		if(event.Confirmada == 0){
 			backgroundColor = '#D3D3D3'
@@ -227,14 +228,46 @@ class Calendar extends Component {
 		else backgroundColor = '#E6E6FA'
 		var style = {
 			backgroundColor: backgroundColor,
-        	borderRadius: '0px',
+        	borderRadius: '5px',
         	opacity: 0.8,
         	color: 'black',
-        	border: '0px'
 		};
 		return {
 			style: style
 		};
+	}
+
+
+	renderCalendar = () => {
+		if(this._isMounted == true){
+			return (
+				<Paper className="MainCalendarPaper">
+					<div className="MainCalendar">
+						<BigCalendar
+							selectable
+							localizer={localizer}
+							events={this.state.citas}
+							defaultView={BigCalendar.Views.WEEK}
+							defaultDate={getStartOfWeek()}
+							components={{
+								toolbar: this.getCustomToolbar
+							}}
+							onSelectSlot={this.hacerCita}
+							onSelectEvent={this.verDetalles}
+							titleAccessor="Nombre"
+							startAccessor="FechaAgendada"
+							endAccessor="FinalCita"
+							eventPropGetter={(this.eventStyleGetter)}
+							min={new Date(2017, 10, 0, 9, 0, 0)}
+							max={new Date(2017, 10, 0, 20, 0, 0)} 
+						/>
+					</div>
+				</Paper>
+				);
+		}
+		else
+		return '';
+
 	}
 
 	render() {
@@ -262,26 +295,7 @@ class Calendar extends Component {
 			            </MuiThemeProvider>
 					</div>
 					<div className="PreMainPaper">
-						<Paper className="MainCalendarPaper">
-							<div className="MainCalendar">
-								<BigCalendar
-									selectable
-									localizer={localizer}
-									events={this.state.citas}
-									defaultView={BigCalendar.Views.WEEK}
-									components={{
-										toolbar: this.getCustomToolbar
-									}}
-									onSelectSlot={this.hacerCita}
-									onSelectEvent={this.verDetalles}
-									titleAccessor="Nombre"
-									startAccessor="FechaAgendada"
-									endAccessor="FinalCita"
-									eventPropGetter={(this.eventStyleGetter)}
-									hideTimeIndicator
-								/>
-							</div>
-						</Paper>
+						{this.renderCalendar()}
 					</div>
 				</Grid>
 			</Grid>
@@ -300,7 +314,8 @@ const mapStateToProps = state => {
 
 const mapDispatchtoProps = dispatch => {
   return {
-      changeToDetails: (CitaID, NutriologaID, Semana, NutriologaNombre) => dispatch({type: 'changeToDetails', payload: {CitaID: CitaID, NutriologaID: NutriologaID, Semana: Semana, NutriologaNombre: NutriologaNombre}})
+      changeToDetails: (CitaID, NutriologaID, Semana, NutriologaNombre) => dispatch({type: 'changeToDetails', payload: {CitaID: CitaID, NutriologaID: NutriologaID, Semana: Semana, NutriologaNombre: NutriologaNombre}}),
+      changeToCreateCita: (NutriologaID, Fecha, NutriologaNombre) => dispatch({type: 'changeToCreateCita', payload: {NutriologaID: NutriologaID, Fecha: Fecha, NutriologaNombre: NutriologaNombre}})
       };
 };
 

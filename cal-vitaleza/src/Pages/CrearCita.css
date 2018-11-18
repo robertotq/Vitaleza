@@ -1,0 +1,46 @@
+.ReturnButton {
+	align-items: baseline;
+}
+
+.CitaPaper {
+	padding-left: 20vw;
+	padding-right: 20vw;
+}
+
+.CitaPaperInner {
+	padding-left: 2vw;
+	padding-right: 2vw;
+	padding-bottom: 2vh;
+	padding-top: 2vh;
+}
+
+.InnerPaperDivider {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+.InnerPageFields {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.ErrorsPaper {
+	padding-left: 20vw;
+	padding-right: 20vw;
+	flex: 1;
+	flex-direction: row;
+	display: flex;
+}
+
+.PacienteSelect {
+	padding-right: 30px;
+}
+
+.InnerSelects {
+	padding-left: 5px;
+	padding-right: 5px;
+}

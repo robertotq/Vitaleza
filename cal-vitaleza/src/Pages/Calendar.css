@@ -1,6 +1,5 @@
 .MainCalendar {
-  height: 80vh;
-  align-items: center;
+  height: 75vh;
   justify-content: center;
 }
 
@@ -27,7 +26,7 @@
 
 .LeftCalendar {
 	background-color: #E6E6FA;
-	height: 95vh;
+	height: 90vh;
 }
 
 .rbc-event-label {
@@ -49,4 +48,11 @@
 .ToolbarButtons {
 	flex-direction: row;
   	display: flex;
+}
+
+.rbc-allday-cell {
+  display: none;
+}
+.rbc-time-view .rbc-header {
+  border-bottom: none;
 }
