@@ -5,7 +5,7 @@
 	padding-bottom: 5vh;
 }
 
-.MainPaper {
+.MainPaperAdmin {
 	padding-right: 5vw;
 	padding-left: 5vw;
 	padding-top: 3vh;
@@ -34,4 +34,19 @@
   	align-items: center;
   	justify-content: center;
   	display: flex;
+}
+
+.Graph {
+	height: 20vh;
+	width: 30vw;
+	padding-bottom: 5vh;
+}
+
+.GraphsRow {
+	flex-direction: row;
+  	align-items: center;
+  	justify-content: space-between;
+  	display: flex;
+  	padding-bottom: 2vh;
+  	padding-top: 2vh;
 }

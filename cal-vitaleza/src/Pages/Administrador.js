@@ -10,7 +10,8 @@ import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
+import { ResponsiveBar } from '@nivo/bar';
+
 
 import Header from '../Components/Header'
 import LeftNavigation from '../Components/LeftNavigation';
@@ -85,6 +86,7 @@ class Administrador extends Component {
 				Nombre: response.data.Nombre,
 				Apellidos: response.data.Apellidos
 			});
+			this.getInfo(this.state.Fecha)
 		})
 		.catch((error) => {
 			console.log("Cant connect to the server");
@@ -140,30 +142,66 @@ class Administrador extends Component {
 
 	renderGrafica = (index) => {
 		var data = null;
+		var label = ''
 		if(this.state.info == null){
 			return <div />
 		}
 		switch(index){
 			case 1:
 				data = this.state.info.cancelaciones
+				label = "Cancelaciones"
+				break;
+			case 2:
+				data = this.state.info.pacientes
+				label = "Cantidad de Pacientes"
+				break;
+			case 3:
+				data = this.state.info.modalidad
+				label = "Cantidad de Modalidades"
+				break;
+			case 4:
+				data = this.state.info.totalPago
+				label = "Total de Pagos"
 				break;
 		}
-		return(
-			<XYPlot
-			  width={300}
-			  height={300}>
-			  <HorizontalGridLines />
-			  <LineSeries
-			    color="red"
-			    data={[
-			      {x: 1, y: 10},
-			      {x: 2, y: 5},
-			      {x: 3, y: 15}
-			    ]}/>
-			  <XAxis title="X" />
-			  <YAxis />
-			</XYPlot>
-			);
+		return(<Paper className="Graph">
+				<Typography variant="h5" component="h3" color="primary">
+					{label}
+				</Typography>
+
+				<ResponsiveBar
+				axisBottom={{
+		            "tickSize": 5,
+		            "tickPadding": 5,
+		            "tickRotation": 0,
+		            "legend": "Fecha",
+		            "legendPosition": "middle",
+		            "legendOffset": 32
+		        }}
+		        margin={{
+		            "top": 5,
+		            "right": 10,
+		            "bottom": 50,
+		            "left": 10
+		        }}
+		        axisLeft={{
+		            "tickSize": 5,
+		            "tickPadding": 5,
+		            "tickRotation": 0,
+		            "legend": "Cantidad",
+		            "legendPosition": "middle",
+		            "legendOffset": -40
+		        }}
+		        labelFontSize={3}
+				data={data}
+				keys={["Count"]}
+				indexBy="Date"
+				animate={true}
+		        padding={0.3}
+        		colors="nivo"
+		        
+			/>
+			</Paper>);
 	}
 
 	render() {
@@ -176,7 +214,7 @@ class Administrador extends Component {
 					</Grid>
 					<Grid item xs={10}>
 						<div className="MainPaperOuter">
-							<Paper className="MainPaper">
+							<Paper className="MainPaperAdmin">
 								<MuiThemeProvider theme={theme}>
 									<div className="InnerButtons">
 										<IconButton aria-label="Delete" color="primary" onClick={this.previous}>
@@ -210,7 +248,14 @@ class Administrador extends Component {
 									<Typography variant="h6" component="h3" color="primary"> 
 										Semana del: {this.printFecha()}
 									</Typography>
-									{this.renderGrafica(1)}
+									<div className="GraphsRow">
+										{this.renderGrafica(1)}
+										{this.renderGrafica(2)}
+									</div>
+									<div className="GraphsRow">
+										{this.renderGrafica(3)}
+										{this.renderGrafica(4)}
+									</div>
 					            </MuiThemeProvider>
 							</Paper>
 						</div>
