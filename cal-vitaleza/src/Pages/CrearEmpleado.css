@@ -1,0 +1,7 @@
+.InnerPageFields {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}

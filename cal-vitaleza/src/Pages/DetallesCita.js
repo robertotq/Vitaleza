@@ -25,6 +25,9 @@ class DetallesCita extends Component {
 
 	constructor(props) {
     super(props);
+    if(this.props.UserType === undefined || this.props.UserType === -1) {
+			this.props.history.push('/');
+		}
     this.state = { info: '' };
   	}
 
@@ -224,7 +227,8 @@ const mapStateToProps = state => {
   return {
     CitaID: state.citaReducer.CitaID,
     NutriologaID: state.citaReducer.NutriologaID,
-    NutriologaNombre: state.citaReducer.NutriologaNombre
+    NutriologaNombre: state.citaReducer.NutriologaNombre,
+    UserType: state.userReducer.userType
   };
 };
 

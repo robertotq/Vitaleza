@@ -9,15 +9,19 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import Header from '../Components/Header';
 import theme from '../Assets/Theme';
-import './CrearPaciente.css';
+import './CrearEmpleado.css';
 
 const axios = require('axios');
 const url = 'http://127.0.0.1:5000';
 
-class CrearPaciente extends Component {
+class CrearEmpleado extends Component {
 
 	constructor(props){
 		super(props);
@@ -27,42 +31,41 @@ class CrearPaciente extends Component {
 		this.state = {
 			Nombre: '',
 			Apellidos: '',
-			FechaDeNacimiento: '0000-00-00',
-			Email: '',
-			Telefono: '',
+			Username: '',
+			Password: '',
+			Tipo: -1,
 			displayError: []
 		}
 	}
 
-	crearPaciente = () => {
-		console.log("Test");
+	crearEmpleado = () => {
 		var errors = [];
   		if(this.state.Nombre === ''){
-  			errors.push("Introdusca el nombre del Paciente");
+  			errors.push("Introdusca el nombre del Empleado");
   		}
   		if(this.state.Apellidos === '')
   		{
-  			errors.push("Introdusca los apellidos del Paciente");
+  			errors.push("Introdusca los apellidos del Empleado");
   		}
-  		if(this.state.FechaDeNacimiento === '0000-00-00'){
-  			errors.push("Introdusca la fecha de nacimiento del Paciente");
+  		if(this.state.Username === ''){
+  			errors.push("Introdusca un nombre de usuario para el Empleado");
   		}
-  		if(this.state.Email === ''){
-  			errors.push("Introdusca un email del Paciente");
+  		if(this.state.Password === ''){
+  			errors.push("Introdusca una contraseña para el Empleado");
   		}
-  		if(this.state.Telefono === ''){
-  			errors.push("Introdusca un telefono del Paciente");
+  		if(this.state.Tipo === -1){
+  			errors.push("Introdusca un tipo de Empleado");
   		}
   		this.setState({
   				displayError: errors
   			})
   		if(errors.length == 0){
-  			axios.post(`${url}/crearPaciente`, {
+  			axios.post(`${url}/crearEmpleado`, {
   				Nombre: this.state.Nombre,
   				Apellidos: this.state.Apellidos,
-  				FechaDeNacimiento: this.state.FechaDeNacimiento,
-  				Email: this.state.Email,
-  				Telefono: this.state.Telefono
+  				Username: this.state.Username,
+  				Password: this.state.Password,
+  				Tipo: this.state.Tipo
   			})
   			.then((response) => {
   				if(response.data === "Done"){
@@ -75,11 +78,17 @@ class CrearPaciente extends Component {
   		}
 	}
 
+  	handleChangeSelect = (event) => {
+  		this.setState({
+  			[event.target.name]: event.target.value
+  		})
+  	}
+
 	displayError = () => {
   		if(this.state.displayError.length == 0){
   			return;
   		}
-  		const output = this.state.displayError.map((error) => <Typography key={error} variant="body1" component="h3" color="default"> 
+  		const output = this.state.displayError.map((error) =>   <Typography key={error} variant="body1" component="h3" color="default"> 
 																{error}
 																</Typography>)
 		const paperOutput = <div className="InnerPaperDivider"> <Paper className="InnerPaperDivider"> {output} </Paper> </div>;
@@ -92,7 +101,7 @@ class CrearPaciente extends Component {
 	render() {
 		return (
 			<div>
-				<Header> Nuevo Paciente </Header>
+				<Header> Nuevo Empleado </Header>
 				<div>
 					<MuiThemeProvider theme={theme}>
 						<div className="ReturnButton">
@@ -103,7 +112,7 @@ class CrearPaciente extends Component {
 		     			<div className="PacientePaper">
 		     				<Paper className="PacientePaperInner"> 
 		     					<Typography variant="h5" component="h3" color="primary">
-										Datos del Paciente
+										Datos del Empleado
 								</Typography>
 								<div className="InnerPaperDivider">
 										<Divider />
@@ -131,48 +140,53 @@ class CrearPaciente extends Component {
 					                value={this.state.Apellidos}
 					                color="primary"
 					            />
-					            <form noValidate>
-						            <TextField
-						                id="FechaDeNacimiento"
-						                label="Fecha de Nacimiento"
-						                className="TextFieldS"
-						                margin="dense"
-						                variant="outlined"
-						                type="date"
-						                onChange={(input) => {this.setState({ FechaDeNacimiento: input.target.value })}}
-						                fullWidth
-						                value={this.state.FechaDeNacimiento}
-						                color="primary"
-						            />
-					            </form>
 					            <TextField
-					                id="Email"
-					                label="Email"
+					                id="Username"
+					                label="Nombre de Usuario"
 					                className="TextFieldS"
 					                margin="dense"
 					                variant="outlined"
-					                onChange={(input) => {this.setState({ Email: input.target.value })}}
+					                onChange={(input) => {this.setState({ Username: input.target.value })}}
 					                fullWidth
-					                value={this.state.Email}
+					                value={this.state.Username}
 					                color="primary"
 					            />
 					            <TextField
-					                id="Telefono"
-					                label="Telefono"
+					                id="Password"
+					                label="Contraseña"
 					                className="TextFieldS"
 					                margin="dense"
 					                variant="outlined"
-					                onChange={(input) => {this.setState({ Telefono: input.target.value })}}
+					                onChange={(input) => {this.setState({ Password: input.target.value })}}
 					                fullWidth
-					                value={this.state.Telefono}
+					                value={this.state.Password}
 					                color="primary"
 					            />
+					            <div className="InnerPageFields">
+						            <FormControl className="Selects">
+							          <InputLabel htmlFor="Tipo">Tipo de Empleado</InputLabel>
+							          <Select
+							            value={this.state.Tipo}
+							            onChange={this.handleChangeSelect}
+							            inputProps={{
+							              name: 'Tipo',
+							              id: 'Tipo',
+							            }}
+							          >
+							            <MenuItem value={0}>
+							              <em>Administrador</em>
+							            </MenuItem>
+							            <MenuItem value={1}>Nutriologa</MenuItem>
+							            <MenuItem value={2}>Recepcionista</MenuItem>
+							          </Select>
+									</FormControl>
+								</div>
 					            <div className="InnerPaperDivider">
 										<Divider />
 										<Divider />
 								</div>
-								<Button variant="contained" color="primary" onClick={this.crearPaciente}>
-							              Inscribir Paciente
+								<Button variant="contained" color="primary" onClick={this.crearEmpleado}>
+							             Inscribir Empleado
 							    </Button>
 							 	{this.displayError()}
 		     				</Paper>
@@ -185,12 +199,10 @@ class CrearPaciente extends Component {
 	}
 
 }
-
 const mapStateToProps = state => {
   return {
   	UserType: state.userReducer.userType
   };
 };
 
-
-export default connect(mapStateToProps)(withRouter(CrearPaciente));
+export default connect(mapStateToProps)(withRouter(CrearEmpleado));

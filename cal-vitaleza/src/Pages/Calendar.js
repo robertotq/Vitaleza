@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment';
-import Header from '../Components/Header'
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
@@ -16,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import theme from '../Assets/Theme';
 //TESTING
 import './Calendar.css';
+import Header from '../Components/Header'
+import LeftNavigation from '../Components/LeftNavigation';
 
 const axios = require('axios');
 const url = 'http://127.0.0.1:5000';
@@ -38,6 +39,9 @@ class Calendar extends Component {
 
 	constructor(...args){
 		super(...args)
+		if(this.props.UserType === undefined || this.props.UserType === -1) {
+			this.props.history.push('/');
+		}
 
 		this.state = { 
 			NutriologaID: this.props.NutriologaID,
@@ -277,8 +281,8 @@ class Calendar extends Component {
 				<Header> Calendario </Header>
 			</div>
 			<Grid container>
-				<Grid item xs={2} className="LeftCalendar">
-					hello
+				<Grid item xs={2}>
+					<LeftNavigation userType={this.props.UserType}/>
 				</Grid>
 				<Grid item xs={10}>
 					<div className="NutriologaCalendar">
@@ -308,7 +312,8 @@ const mapStateToProps = state => {
   return {
   	NutriologaID: state.citaReducer.NutriologaID,
   	Fecha: state.citaReducer.Fecha,
-  	NutriologaNombre: state.citaReducer.NutriologaNombre
+  	NutriologaNombre: state.citaReducer.NutriologaNombre,
+  	UserType: state.userReducer.userType
   };
 };
 

@@ -6,6 +6,8 @@ import Calendar from './Pages/Calendar';
 import DetallesCita from './Pages/DetallesCita';
 import CrearCita from './Pages/CrearCita';
 import CrearPaciente from './Pages/CrearPaciente';
+import Administrador from './Pages/Administrador';
+import CrearEmpleado from './Pages/CrearEmpleado';
 
 import './App.css';
 
@@ -48,6 +50,18 @@ class App extends Component {
               path ='/crearPaciente'
               render={() => (
                   <CrearPaciente />
+                )} />
+              <Route
+              exact
+              path ='/administrador'
+              render={() => (
+                  <Administrador />
+                )} />
+              <Route
+              exact
+              path ='/crearEmpleado'
+              render={() => (
+                  <CrearEmpleado />
                 )} />
               </Switch>
         </Router>

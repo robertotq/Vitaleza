@@ -13,3 +13,23 @@
    padding-right: 25px;
    padding-left: 25px;
 }
+
+.IconsDiv{
+	flex-direction: column;
+	flex: 1;
+	display: flex;
+}
+
+.Icon {
+	padding-top: 2vh;
+	padding-bottom: 1vh;
+}
+
+.LeftNav {
+	background-color: #E6E6FA;
+	height: 90vh;
+}
+
+.LogOutIcon {
+	padding-left: 2.3vw;
+}

@@ -34,7 +34,6 @@ class Login extends Component {
   }
 
   logIn(event) {
-    console.log('LoggedIn' + this.props.loggedIn);
     axios.get(`${url}/login`, {
 	params: {
 	  username: this.state.username,
@@ -69,6 +68,13 @@ class Login extends Component {
 	})
   }
 
+   _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+    	console.log("Enter");
+      this.logIn()
+    }
+  }
+
   render() {
     return (
         <div className="Login-header">
@@ -79,7 +85,8 @@ class Login extends Component {
 	          	</Typography>
           	</MuiThemeProvider>
           	<div className="InputForm">
-	            <form>
+          	<form onSubmit={this.logIn}>
+          		<div className="TextFields">
 	              <TextField
 	                id="username"
 	                label="username"
@@ -90,9 +97,6 @@ class Login extends Component {
 	                value={this.state.username}
 	                color="inherit"
 	                />
-	            </form>
-
-	            <form>
 	              <TextField
 	              id="password"
 	              label="password"
@@ -105,15 +109,16 @@ class Login extends Component {
 	              variant="filled"
 	              onChange={this.changePassword}
 	              value={this.state.password}
-	              />
-	            </form>
-	        </div>
+	              /> 
+	        </div>     
 	        <div>
 	        	<MuiThemeProvider theme={theme}>
 	            <Button variant="contained" color="primary" onClick={this.logIn} className="Login_Button">
 	              Log In
 	            </Button>
 	            </MuiThemeProvider>
+	        </div>
+	         </form>
 	        </div>
         </div>
     );

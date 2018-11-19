@@ -29,6 +29,9 @@ class CrearCita extends Component {
 	
 	constructor(props) {
 		super(props);
+		if(this.props.UserType === undefined || this.props.UserType === -1) {
+			this.props.history.push('/');
+		}
 		this.state = {
 			pacienteNombre: '',
 			paciente: null,
@@ -298,7 +301,8 @@ const mapStateToProps = state => {
   return {
   	NutriologaID: state.citaReducer.NutriologaID,
   	Fecha: state.citaReducer.Fecha,
-  	NutriologaNombre: state.citaReducer.NutriologaNombre
+  	NutriologaNombre: state.citaReducer.NutriologaNombre,
+  	UserType: state.userReducer.userType
   };
 };
 
