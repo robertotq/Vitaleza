@@ -10,7 +10,7 @@ import logo from '../Assets/logo.png';
 import theme from '../Assets/Theme';
 
 const axios = require('axios');
-const url = 'http://127.0.0.1:5000';
+const url = 'http://35.243.146.191';
 
 class Login extends Component {
 

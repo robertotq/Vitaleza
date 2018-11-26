@@ -19,7 +19,7 @@ import Header from '../Components/Header'
 import LeftNavigation from '../Components/LeftNavigation';
 
 const axios = require('axios');
-const url = 'http://127.0.0.1:5000';
+const url = 'http://35.243.146.191';
 
 const localizer = BigCalendar.momentLocalizer(moment)
 

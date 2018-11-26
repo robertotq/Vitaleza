@@ -18,7 +18,7 @@ import Header from '../Components/Header';
 import theme from '../Assets/Theme';
 import './DetallesCita.css'
 const axios = require('axios');
-const url = 'http://127.0.0.1:5000';
+const url = 'http://35.243.146.191';
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: 'numeric', minute: 'numeric'};
 
 class DetallesCita extends Component {
